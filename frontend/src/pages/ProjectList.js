@@ -23,6 +23,7 @@ import {
   ToggleButton,
   Paper,
   Collapse,
+  MenuItem,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -122,9 +123,15 @@ export default function ProjectList() {
     const matchesPriority = priorityFilter.length === 0 || priorityFilter.includes(project.priority);
     
     // Filtro por usuario asignado
-    const matchesUser = userFilter === '' || 
-      userFilter === 'unassigned' ? !project.assigned_to_id :
-      project.assigned_to_id === parseInt(userFilter);
+    let matchesUser = true;
+    if (userFilter === 'unassigned') {
+      // Mostrar solo proyectos sin usuario asignado
+      matchesUser = !project.assigned_to_id;
+    } else if (userFilter !== '') {
+      // Mostrar solo proyectos del usuario seleccionado
+      matchesUser = project.assigned_to_id === parseInt(userFilter);
+    }
+    // Si userFilter === '', matchesUser permanece true (mostrar todos)
     
     return matchesSearch && matchesStatus && matchesPriority && matchesUser;
   });
@@ -316,6 +323,14 @@ export default function ProjectList() {
                 onDelete={() => setPriorityFilter(priorityFilter.filter(p => p !== priority))}
               />
             ))}
+            {userFilter && (
+              <Chip
+                label={`Asignado: ${userFilter === 'unassigned' ? 'Sin asignar' : users.find(u => u.id === parseInt(userFilter))?.name || 'Usuario'}`}
+                size="small"
+                icon={<PersonIcon />}
+                onDelete={() => setUserFilter('')}
+              />
+            )}
           </Box>
         )}
       </Paper>
@@ -395,6 +410,14 @@ export default function ProjectList() {
                     <Typography variant="caption" display="block" color="text.secondary">
                       Presupuesto: ${project.budget.toLocaleString()}
                     </Typography>
+                  )}
+                  {project.assigned_to && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
+                      <PersonIcon fontSize="small" color="action" />
+                      <Typography variant="caption" color="text.secondary">
+                        {project.assigned_to.name}
+                      </Typography>
+                    </Box>
                   )}
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
