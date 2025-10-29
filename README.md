@@ -11,24 +11,45 @@ Aplicación de gestión de proyectos construida con React (Frontend) y FastAPI (
 
 ## ⚡ Inicio Rápido
 
-### Opción 1: Usar scripts (Windows)
+### Scripts Disponibles (Windows)
 
+1. Inicio rápido:
+#### 🟢 `start.bat` - Uso Diario
+Iniciar la aplicación normalmente
 ```bash
-# Iniciar la aplicación
 start.bat
+```
+- Corrige finales de línea automáticamente
+- Construye e inicia los servicios
 
-# Detener la aplicación
+#### 🔴 `stop.bat` - Detener Servicios
+```bash
 stop.bat
 ```
 
-### Opción 2: Comandos Docker Compose
+2. Inicio con limpieza de caché
+#### 🔧 `rebuild.bat`
+**Se usa cuando**:
+- Se cambia el Dockerfile
+- Problemas con caché
 
 ```bash
-# Construir e iniciar todos los servicios
+rebuild.bat
+```
+Elimina volúmenes y caché
+
+### Comandos Docker Compose Manuales
+
+```bash
+# Iniciar (uso normal)
 docker-compose up --build
 
-# Detener todos los servicios
+# Detener
 docker-compose down
+
+# Limpieza completa
+docker-compose down -v
+docker-compose build --no-cache
 ```
 
 ## 🌐 Acceder a la Aplicación
