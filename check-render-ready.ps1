@@ -19,8 +19,7 @@ function Check-File {
 
 Write-Host "`n📦 Archivos de configuración:" -ForegroundColor Yellow
 $allGood = $allGood -and (Check-File "render.yaml" "render.yaml (Blueprint)")
-$allGood = $allGood -and (Check-File "DEPLOY_RENDER.md" "Guía de despliegue")
-$allGood = $allGood -and (Check-File "RENDER_CHECKLIST.md" "Checklist")
+$allGood = $allGood -and (Check-File "RENDER_DEPLOYMENT.md" "Guía completa de despliegue")
 
 Write-Host "`n🐳 Archivos Docker - Backend:" -ForegroundColor Yellow
 $allGood = $allGood -and (Check-File "backend\Dockerfile.prod" "Dockerfile.prod")
@@ -106,11 +105,11 @@ if ($allGood) {
     Write-Host "4. Conecta tu repositorio" -ForegroundColor White
     Write-Host "5. Render detectará render.yaml automáticamente" -ForegroundColor White
     Write-Host "6. Click en 'Apply' y espera 5-10 minutos" -ForegroundColor White
-    Write-Host "`n📚 Guía completa: DEPLOY_RENDER.md" -ForegroundColor Cyan
+    Write-Host "`n📚 Guía completa: RENDER_DEPLOYMENT.md" -ForegroundColor Cyan
 } else {
     Write-Host "⚠️  HAY ALGUNOS PROBLEMAS QUE CORREGIR" -ForegroundColor Yellow
     Write-Host "`nRevisa los archivos marcados con ❌ arriba" -ForegroundColor White
-    Write-Host "Consulta DEPLOY_RENDER.md para más información" -ForegroundColor White
+    Write-Host "Consulta RENDER_DEPLOYMENT.md para más información" -ForegroundColor White
 }
 Write-Host ("=" * 60) -ForegroundColor Cyan
 Write-Host ""

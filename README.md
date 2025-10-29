@@ -151,9 +151,9 @@ El frontend está configurado con Material-UI para un diseño moderno y profesio
 
 Este proyecto está listo para desplegarse en [Render](https://render.com) con Docker.
 
-**Guía completa:** Ver [DEPLOY_RENDER.md](DEPLOY_RENDER.md)
+**📚 Guía completa:** Ver [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
 
-**Inicio rápido:**
+**⚡ Inicio rápido:**
 1. Sube tu código a GitHub/GitLab/Bitbucket
 2. Crea una cuenta en [Render](https://render.com)
 3. Conecta tu repositorio y selecciona "Blueprint"
@@ -161,8 +161,7 @@ Este proyecto está listo para desplegarse en [Render](https://render.com) con D
 
 **Archivos de configuración:**
 - `render.yaml` - Blueprint de infraestructura como código
-- `DEPLOY_RENDER.md` - Guía detallada de despliegue
-- `RENDER_CHECKLIST.md` - Checklist de verificación
+- `RENDER_DEPLOYMENT.md` - Guía completa con checklist y solución de problemas
 - `ENV_RENDER_EXAMPLE.txt` - Variables de entorno de ejemplo
 
 ## 📝 Notas
