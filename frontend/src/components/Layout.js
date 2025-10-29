@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -13,29 +13,21 @@ import {
   ListItemText,
   Container,
   CssBaseline,
-  ThemeProvider,
-  createTheme,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const drawerWidth = 240;
 
-// Crear un tema personalizado
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
-
 export default function Layout({ children }) {
   const location = useLocation();
+  const { mode, toggleTheme } = useContext(ThemeContext);
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
@@ -44,7 +36,7 @@ export default function Layout({ children }) {
   ];
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         {/* AppBar Superior */}
@@ -53,9 +45,14 @@ export default function Layout({ children }) {
           sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
           <Toolbar>
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               Arauco - Project Manager
             </Typography>
+            <Tooltip title={mode === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}>
+              <IconButton onClick={toggleTheme} color="inherit">
+                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
 
@@ -105,7 +102,7 @@ export default function Layout({ children }) {
           </Container>
         </Box>
       </Box>
-    </ThemeProvider>
+    </>
   );
 }
 
