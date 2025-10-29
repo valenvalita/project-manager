@@ -1,0 +1,29 @@
+# ============================================
+# Variables de Entorno para Render
+# ============================================
+# Copia estas variables a la configuración de cada servicio en Render
+
+# ========== BACKEND ==========
+# Variables de base de datos (Render las configura automáticamente desde el Blueprint)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=tu_password_desde_render
+POSTGRES_HOST=tu_host_interno_desde_render
+POSTGRES_PORT=5432
+POSTGRES_DB=project_manager
+
+# URL del frontend para CORS
+FRONTEND_URL=https://project-manager-frontend.onrender.com
+
+# ========== FRONTEND ==========
+# URL del backend API
+REACT_APP_API_URL=https://project-manager-backend.onrender.com
+
+# ============================================
+# Notas:
+# - Reemplaza "project-manager" con el nombre que uses en Render
+# - Las variables de POSTGRES_* se configuran automáticamente 
+#   si usas el Blueprint (render.yaml)
+# - Asegúrate de actualizar las URLs después del primer despliegue
+# - En Render, ve a cada servicio > Environment > Add Environment Variable
+# ============================================
+

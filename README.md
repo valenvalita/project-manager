@@ -145,10 +145,31 @@ El frontend está configurado con Material-UI para un diseño moderno y profesio
 
 **Recursos**: [Documentación oficial de MUI](https://mui.com/)
 
+## 🌐 Despliegue en Producción
+
+### Render (Recomendado)
+
+Este proyecto está listo para desplegarse en [Render](https://render.com) con Docker.
+
+**Guía completa:** Ver [DEPLOY_RENDER.md](DEPLOY_RENDER.md)
+
+**Inicio rápido:**
+1. Sube tu código a GitHub/GitLab/Bitbucket
+2. Crea una cuenta en [Render](https://render.com)
+3. Conecta tu repositorio y selecciona "Blueprint"
+4. Render detectará `render.yaml` y desplegará automáticamente
+
+**Archivos de configuración:**
+- `render.yaml` - Blueprint de infraestructura como código
+- `DEPLOY_RENDER.md` - Guía detallada de despliegue
+- `RENDER_CHECKLIST.md` - Checklist de verificación
+- `ENV_RENDER_EXAMPLE.txt` - Variables de entorno de ejemplo
+
 ## 📝 Notas
 
 - Los datos de la base de datos persisten entre reinicios gracias a los volúmenes de Docker
 - El backend tiene hot-reload habilitado para desarrollo
 - El frontend está optimizado para producción con Nginx
 - Las migraciones de base de datos con Alembic se ejecutan automáticamente al iniciar
+- El proyecto está configurado para despliegue en la nube con Render
 
