@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .database import get_db
 from .models import Project, StatusEnum, PriorityEnum
-from .schemas import ProjectCreate, ProjectRead
+from .schemas import ProjectCreate, ProjectRead, ProjectUpdate
 
 # Las tablas ahora se crean mediante migraciones de Alembic
 # Base.metadata.create_all(bind=engine) <- Ya no es necesario
@@ -54,6 +54,21 @@ def update_project(project_id: int, project: ProjectCreate, db: Session = Depend
         raise HTTPException(status_code=404, detail="Project not found")
     for key, value in project.dict(exclude_unset=True).items():
         setattr(db_project, key, value)
+    db.commit()
+    db.refresh(db_project)
+    return db_project
+
+@app.patch("/projects/{project_id}", response_model=ProjectRead)
+def partial_update_project(project_id: int, project: ProjectUpdate, db: Session = Depends(get_db)):
+    db_project = db.query(Project).filter(Project.id == project_id).first()
+    if not db_project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # Solo actualizar los campos que fueron enviados
+    update_data = project.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_project, key, value)
+    
     db.commit()
     db.refresh(db_project)
     return db_project

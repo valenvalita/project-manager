@@ -30,11 +30,12 @@ uvicorn app.main:app --reload
 - **GET** `/` - Verificar estado del backend
 
 ### Proyectos
-- **GET** `/api/projects` - Listar todos los proyectos
-- **POST** `/api/projects` - Crear un nuevo proyecto
-- **GET** `/api/projects/{id}` - Obtener un proyecto específico
-- **PUT** `/api/projects/{id}` - Actualizar un proyecto
-- **DELETE** `/api/projects/{id}` - Eliminar un proyecto
+- **GET** `/projects/` - Listar todos los proyectos
+- **POST** `/projects/` - Crear un nuevo proyecto
+- **GET** `/projects/{id}` - Obtener un proyecto específico
+- **PUT** `/projects/{id}` - Actualizar un proyecto (reemplazar)
+- **PATCH** `/projects/{id}` - Actualizar parcialmente un proyecto
+- **DELETE** `/projects/{id}` - Eliminar un proyecto
 
 ## 📊 Modelo de Datos
 
