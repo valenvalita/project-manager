@@ -2,10 +2,7 @@ from enum import Enum
 from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Enum as SQLEnum
 from datetime import datetime
 from .database import Base
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
-
-Base = declarative_base()
 
 class StatusEnum(str, Enum):
     draft = "draft"
