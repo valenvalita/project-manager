@@ -14,8 +14,8 @@ services:
   - type: web
     name: project-manager-backend
     env: docker
-    dockerfilePath: ./backend/Dockerfile.prod
-    dockerContext: ./backend
+    dockerfilePath: ./project-manager/backend/Dockerfile.prod
+    dockerContext: ./project-manager/backend
     region: oregon
     plan: free
     healthCheckPath: /docs
@@ -47,8 +47,8 @@ services:
   - type: web
     name: project-manager-frontend
     env: docker
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
+    dockerfilePath: ./project-manager/frontend/Dockerfile
+    dockerContext: ./project-manager/frontend
     region: oregon
     plan: free
     envVars:
