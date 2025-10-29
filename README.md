@@ -115,19 +115,11 @@ docker-compose up db
 El frontend está configurado con Material-UI para un diseño moderno y profesional. Incluye:
 
 - ✅ Componentes MUI instalados y configurados
-- ✅ Sistema de theming personalizable
+- ✅ Sistema de theming personalizable con modo oscuro/claro
 - ✅ Iconos de Material-UI
 - ✅ Ejemplos de uso en `src/components/MUIExamples.js`
 
-**Ver guía completa**: [MUI_SETUP.md](MUI_SETUP.md)
-
-## 📚 Documentación Completa
-
-Para instrucciones detalladas, solución de problemas y configuración de producción, consulta:
-
-- **Docker**: [DOCKER_INSTRUCTIONS.md](DOCKER_INSTRUCTIONS.md)
-- **Material-UI**: [MUI_SETUP.md](MUI_SETUP.md)
-- **Inicio Rápido**: [QUICKSTART.md](QUICKSTART.md)
+**Recursos**: [Documentación oficial de MUI](https://mui.com/)
 
 ## 🐛 Solución Rápida de Problemas
 
@@ -165,8 +157,5 @@ docker-compose up --build
 - Los datos de la base de datos persisten entre reinicios gracias a los volúmenes de Docker
 - El backend tiene hot-reload habilitado para desarrollo
 - El frontend está optimizado para producción con Nginx
-
----
-
-**¿Problemas?** Consulta [DOCKER_INSTRUCTIONS.md](DOCKER_INSTRUCTIONS.md) para más ayuda.
+- Las migraciones de base de datos con Alembic se ejecutan automáticamente al iniciar
 
