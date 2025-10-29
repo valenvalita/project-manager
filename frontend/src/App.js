@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import ProjectList from './pages/ProjectList';
 import ProjectForm from './pages/ProjectForm';
 import ProjectDetail from './pages/ProjectDetail';
+import UserList from './pages/UserList';
+import UserForm from './pages/UserForm';
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
             <Route path="/projects/create" element={<ProjectForm />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/projects/:id/edit" element={<ProjectForm />} />
+            <Route path="/users" element={<UserList />} />
+            <Route path="/users/create" element={<UserForm />} />
+            <Route path="/users/:id/edit" element={<UserForm />} />
           </Routes>
         </Layout>
       </Router>

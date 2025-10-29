@@ -16,6 +16,8 @@ import {
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import PeopleIcon from '@mui/icons-material/People';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ParkIcon from '@mui/icons-material/Park';
@@ -37,6 +39,8 @@ export default function Layout({ children }) {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Proyectos', icon: <FolderIcon />, path: '/projects' },
     { text: 'Crear Proyecto', icon: <AddCircleIcon />, path: '/projects/create' },
+    { text: 'Usuarios', icon: <PeopleIcon />, path: '/users' },
+    { text: 'Crear Usuario', icon: <PersonAddIcon />, path: '/users/create' },
   ];
 
   return (
