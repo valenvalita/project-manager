@@ -14,8 +14,8 @@ services:
   - type: web
     name: project-manager-backend
     env: docker
-    dockerfilePath: ./project-manager/backend/Dockerfile.prod
-    dockerContext: ./project-manager/backend
+    dockerfilePath: ./backend/Dockerfile.prod
+    dockerContext: ./backend
     region: oregon
     plan: free
     healthCheckPath: /docs
@@ -47,11 +47,10 @@ services:
   - type: web
     name: project-manager-frontend
     env: docker
-    dockerfilePath: ./project-manager/frontend/Dockerfile
-    dockerContext: ./project-manager/frontend
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
     region: oregon
     plan: free
     envVars:
       - key: REACT_APP_API_URL
         value: https://project-manager-backend.onrender.com
-
