@@ -11,6 +11,11 @@ import {
   CircularProgress,
   Alert,
   Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
@@ -36,6 +41,7 @@ export default function ProjectDetail() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteDialog, setDeleteDialog] = useState(false);
 
   useEffect(() => {
     loadProject();
@@ -55,15 +61,22 @@ export default function ProjectDetail() {
     }
   };
 
-  const handleDelete = async () => {
-    if (window.confirm(`¿Estás seguro de que deseas eliminar el proyecto "${project.title}"?`)) {
-      try {
-        await deleteProject(id);
-        navigate('/projects');
-      } catch (err) {
-        setError('Error al eliminar proyecto: ' + err.message);
-      }
+  const handleDeleteClick = () => {
+    setDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteProject(id);
+      navigate('/projects');
+    } catch (err) {
+      setError('Error al eliminar proyecto: ' + err.message);
+      setDeleteDialog(false);
     }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialog(false);
   };
 
   const formatDate = (dateString) => {
@@ -136,7 +149,7 @@ export default function ProjectDetail() {
             variant="contained"
             color="error"
             startIcon={<DeleteIcon />}
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
           >
             Eliminar
           </Button>
@@ -232,6 +245,28 @@ export default function ProjectDetail() {
           </Grid>
         </CardContent>
       </Card>
+
+      {/* Dialog de confirmación de eliminación */}
+      <Dialog
+        open={deleteDialog}
+        onClose={handleDeleteCancel}
+      >
+        <DialogTitle>Confirmar eliminación</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ¿Estás seguro/a de que deseas eliminar el proyecto "{project?.title}"?
+            Esta acción no se puede deshacer.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel}>
+            Cancelar
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+            Eliminar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

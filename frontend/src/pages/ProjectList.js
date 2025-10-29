@@ -205,7 +205,7 @@ export default function ProjectList() {
         <DialogTitle>Confirmar eliminación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas eliminar el proyecto "{deleteDialog.project?.title}"?
+            ¿Estás seguro/a de que deseas eliminar el proyecto "{deleteDialog.project?.title}"?
             Esta acción no se puede deshacer.
           </DialogContentText>
         </DialogContent>
