@@ -121,37 +121,6 @@ El frontend está configurado con Material-UI para un diseño moderno y profesio
 
 **Recursos**: [Documentación oficial de MUI](https://mui.com/)
 
-## 🐛 Solución Rápida de Problemas
-
-### Los contenedores no inician
-```bash
-# Ver logs
-docker-compose logs
-
-# Verificar estado
-docker-compose ps
-```
-
-### Resetear todo
-```bash
-# Eliminar contenedores y volúmenes
-docker-compose down -v
-
-# Reconstruir
-docker-compose up --build
-```
-
-### El frontend no se conecta al backend
-- Verifica que el backend esté corriendo en http://localhost:8000
-- Revisa la consola del navegador para errores CORS
-
-## 👥 Contribuir
-
-1. Realiza cambios en tu rama local
-2. Prueba con Docker: `docker-compose up --build`
-3. Asegúrate de que todo funcione correctamente
-4. Haz commit de tus cambios
-
 ## 📝 Notas
 
 - Los datos de la base de datos persisten entre reinicios gracias a los volúmenes de Docker
