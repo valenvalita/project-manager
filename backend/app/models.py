@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Enum as S
 from datetime import datetime
 from .database import Base
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.sql import func
 
 Base = declarative_base()
 
@@ -39,4 +40,4 @@ class Project(Base):
 
     # Timestamps
     created_at = Column(DateTime, default=datetime.now)
-    updated_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=func.now())
