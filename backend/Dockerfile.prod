@@ -13,9 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el código de la aplicación
 COPY . .
 
+# Hacer el script de inicio ejecutable
+RUN chmod +x entrypoint.prod.sh
+
 # Exponer el puerto 8000
 EXPOSE 8000
 
-# Comando para ejecutar la aplicación en producción (sin --reload)
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+# Comando para ejecutar el script de inicio en producción (migraciones + app)
+CMD ["./entrypoint.prod.sh"]
 
