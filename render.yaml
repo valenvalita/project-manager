@@ -41,7 +41,7 @@ services:
           name: project-manager-db
           property: database
       - key: FRONTEND_URL
-        value: https://project-manager-frontend.onrender.com
+        value: https://project-manager-frontend-g28j.onrender.com
 
   # Frontend React con Nginx
   - type: web
@@ -53,4 +53,4 @@ services:
     plan: free
     envVars:
       - key: REACT_APP_API_URL
-        value: https://project-manager-backend.onrender.com
+        value: https://project-manager-backend-13er.onrender.com
