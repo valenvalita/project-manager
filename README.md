@@ -32,6 +32,9 @@ stop.bat
 **Se usa cuando**:
 - Se cambia el Dockerfile
 - Problemas con caché
+- Primera vez que clonas el repo en Windows (Más detalle en nota)
+
+> **⚠️ Nota sobre finales de línea**: Este proyecto maneja automáticamente la conversión de finales de línea CRLF (Windows) → LF (Linux) para los scripts `.sh`. Git en Windows por defecto usa `core.autocrlf=true`, que convierte LF→CRLF al hacer checkout, causando errores en contenedores Linux. Los scripts `start.bat` y `rebuild.bat` corrigen esto automáticamente.
 
 ```bash
 rebuild.bat
