@@ -35,11 +35,27 @@ export async function createProject(projectData) {
 
 export async function updateProject(id, projectData) {
     const res = await fetch(`${API_URL}/projects/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(projectData),
+    });
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.detail || 'Error al actualizar proyecto');
+    }
+    return res.json();
+}
+
+// Actualización parcial específica (envía solo los campos especificados)
+export async function patchProject(id, partialData) {
+    const res = await fetch(`${API_URL}/projects/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(partialData),
     });
     if (!res.ok) {
         const error = await res.json();
