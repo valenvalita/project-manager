@@ -5,7 +5,6 @@ databases:
   # Base de datos PostgreSQL
   - name: project-manager-db
     databaseName: project_manager
-    user: postgres
     plan: free
     region: oregon
 
