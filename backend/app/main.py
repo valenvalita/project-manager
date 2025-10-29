@@ -1,4 +1,5 @@
 from typing import Optional
+import os
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .database import get_db
@@ -15,9 +16,20 @@ app = FastAPI(title="Project Manager API")
 
 from fastapi.middleware.cors import CORSMiddleware
 
+# Configurar CORS - En producción usa variable de entorno FRONTEND_URL
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+allowed_origins = [
+    frontend_url,
+    "http://localhost:3000",  # Para desarrollo local
+]
+
+# Si FRONTEND_URL contiene una lista separada por comas
+if "," in frontend_url:
+    allowed_origins = frontend_url.split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], #TODO: Limitar a solo el frontend
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

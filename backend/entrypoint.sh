@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Script de inicio para ejecutar migraciones y arrancar la aplicación
+# Script de inicio para ejecutar migraciones y arrancar la aplicaciÃƒÆ’Ã‚Â³n
 
-echo "Esperando a que la base de datos esté lista..."
+echo "Esperando a que la base de datos estÃƒÆ’Ã‚Â© lista..."
 sleep 5
 
 echo "Ejecutando migraciones de Alembic..."
@@ -15,6 +15,6 @@ else
     exit 1
 fi
 
-echo "Iniciando la aplicación FastAPI..."
+echo "Iniciando la aplicaciÃƒÆ’Ã‚Â³n FastAPI..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
