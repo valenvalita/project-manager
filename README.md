@@ -4,7 +4,7 @@ Aplicación de gestión de proyectos construida con React (Frontend) y FastAPI (
 
 ## 📦 Tecnologías
 
-- **Frontend**: React 19, Nginx
+- **Frontend**: React 19, Material-UI (MUI), Nginx
 - **Backend**: FastAPI (Python), SQLAlchemy
 - **Base de datos**: PostgreSQL 15
 - **Containerización**: Docker & Docker Compose
@@ -110,11 +110,24 @@ npm start
 docker-compose up db
 ```
 
+## 🎨 Material-UI (MUI)
+
+El frontend está configurado con Material-UI para un diseño moderno y profesional. Incluye:
+
+- ✅ Componentes MUI instalados y configurados
+- ✅ Sistema de theming personalizable
+- ✅ Iconos de Material-UI
+- ✅ Ejemplos de uso en `src/components/MUIExamples.js`
+
+**Ver guía completa**: [MUI_SETUP.md](MUI_SETUP.md)
+
 ## 📚 Documentación Completa
 
 Para instrucciones detalladas, solución de problemas y configuración de producción, consulta:
 
-**[DOCKER_INSTRUCTIONS.md](DOCKER_INSTRUCTIONS.md)**
+- **Docker**: [DOCKER_INSTRUCTIONS.md](DOCKER_INSTRUCTIONS.md)
+- **Material-UI**: [MUI_SETUP.md](MUI_SETUP.md)
+- **Inicio Rápido**: [QUICKSTART.md](QUICKSTART.md)
 
 ## 🐛 Solución Rápida de Problemas
 
