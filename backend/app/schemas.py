@@ -26,8 +26,13 @@ class ProjectCreate(BaseModel):
 
     @model_validator(mode="before")
     def check_dates(cls, values):
-        start = values.get('start_date')
-        end = values.get('end_date')
+        if isinstance(values, dict):
+            start = values.get('start_date')
+            end = values.get('end_date')
+        else:
+            start = getattr(values, 'start_date', None)
+            end = getattr(values, 'end_date', None)
+        
         if start and end and start > end:
             raise ValueError('start_date debe ser menor que end_date')
         return values
@@ -37,7 +42,6 @@ class ProjectCreate(BaseModel):
         if v is not None and v < 0:
             raise ValueError('budget debe ser mayor o igual a 0')
         return v
-        return v
 
 class ProjectRead(ProjectCreate):
     id: int
@@ -45,4 +49,4 @@ class ProjectRead(ProjectCreate):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
