@@ -20,6 +20,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonIcon from '@mui/icons-material/Person';
 import { getProject, deleteProject } from '../api';
 
 const statusLabels = {
@@ -218,6 +219,25 @@ export default function ProjectDetail() {
               </Typography>
               <Typography variant="body1">
                 {project.budget ? `$${project.budget.toLocaleString('es-ES', { minimumFractionDigits: 2 })}` : 'N/A'}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <PersonIcon fontSize="small" />
+                Asignado a
+              </Typography>
+              <Typography variant="body1">
+                {project.assigned_to ? (
+                  <Box>
+                    <Typography variant="body1">{project.assigned_to.name}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {project.assigned_to.email}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography variant="body2" color="text.secondary">Sin asignar</Typography>
+                )}
               </Typography>
             </Grid>
 

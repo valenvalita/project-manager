@@ -30,7 +30,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { getProjects, deleteProject } from '../api';
+import PersonIcon from '@mui/icons-material/Person';
+import { getProjects, deleteProject, getUsers } from '../api';
 
 const statusLabels = {
   draft: { label: 'Borrador', color: 'default' },
@@ -48,6 +49,7 @@ const priorityLabels = {
 export default function ProjectList() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState({ open: false, project: null });
@@ -56,11 +58,22 @@ export default function ProjectList() {
   const [searchText, setSearchText] = useState('');
   const [statusFilter, setStatusFilter] = useState([]);
   const [priorityFilter, setPriorityFilter] = useState([]);
+  const [userFilter, setUserFilter] = useState(''); // Filtro por usuario
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     loadProjects();
+    loadUsers();
   }, []);
+
+  const loadUsers = async () => {
+    try {
+      const data = await getUsers();
+      setUsers(data);
+    } catch (err) {
+      console.error('Error al cargar usuarios:', err);
+    }
+  };
 
   const loadProjects = async () => {
     try {
@@ -108,7 +121,12 @@ export default function ProjectList() {
     // Filtro por prioridad
     const matchesPriority = priorityFilter.length === 0 || priorityFilter.includes(project.priority);
     
-    return matchesSearch && matchesStatus && matchesPriority;
+    // Filtro por usuario asignado
+    const matchesUser = userFilter === '' || 
+      userFilter === 'unassigned' ? !project.assigned_to_id :
+      project.assigned_to_id === parseInt(userFilter);
+    
+    return matchesSearch && matchesStatus && matchesPriority && matchesUser;
   });
 
   // Limpiar todos los filtros
@@ -116,10 +134,11 @@ export default function ProjectList() {
     setSearchText('');
     setStatusFilter([]);
     setPriorityFilter([]);
+    setUserFilter('');
   };
 
   // Verificar si hay filtros activos
-  const hasActiveFilters = searchText !== '' || statusFilter.length > 0 || priorityFilter.length > 0;
+  const hasActiveFilters = searchText !== '' || statusFilter.length > 0 || priorityFilter.length > 0 || userFilter !== '';
 
   if (loading) {
     return (
@@ -234,6 +253,36 @@ export default function ProjectList() {
                   Alta
                 </ToggleButton>
               </ToggleButtonGroup>
+            </Box>
+
+            {/* Filtro por Usuario Asignado */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <PersonIcon fontSize="small" />
+                Asignado a
+              </Typography>
+              <TextField
+                select
+                size="small"
+                value={userFilter}
+                onChange={(e) => setUserFilter(e.target.value)}
+                sx={{ minWidth: 250 }}
+                SelectProps={{
+                  displayEmpty: true,
+                }}
+              >
+                <MenuItem value="">
+                  <em>Todos los proyectos</em>
+                </MenuItem>
+                <MenuItem value="unassigned">
+                  Sin asignar
+                </MenuItem>
+                {users.map((user) => (
+                  <MenuItem key={user.id} value={user.id}>
+                    {user.name} {!user.is_active && '(Inactivo)'}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Box>
           </Box>
         </Collapse>

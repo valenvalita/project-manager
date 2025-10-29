@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createProject, updateProject, getProject } from '../api';
+import { createProject, updateProject, getProject, getUsers } from '../api';
 
 const statuses = [
   { value: 'draft', label: 'Borrador' },
@@ -37,6 +37,7 @@ export default function ProjectForm() {
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -46,14 +47,25 @@ export default function ProjectForm() {
     end_date: '',
     due_date: '',
     budget: '',
+    assigned_to_id: '',
   });
 
   useEffect(() => {
+    loadUsers();
     if (isEditing) {
       loadProject();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const loadUsers = async () => {
+    try {
+      const data = await getUsers();
+      setUsers(data.filter(user => user.is_active)); // Solo usuarios activos
+    } catch (err) {
+      console.error('Error al cargar usuarios:', err);
+    }
+  };
 
   const loadProject = async () => {
     try {
@@ -69,6 +81,7 @@ export default function ProjectForm() {
         end_date: project.end_date ? project.end_date.split('T')[0] : '',
         due_date: project.due_date ? project.due_date.split('T')[0] : '',
         budget: project.budget || '',
+        assigned_to_id: project.assigned_to_id || '',
       });
       setError(null);
     } catch (err) {
@@ -109,6 +122,7 @@ export default function ProjectForm() {
         end_date: formData.end_date ? `${formData.end_date}T00:00:00` : null,
         due_date: formData.due_date ? `${formData.due_date}T00:00:00` : null,
         budget: formData.budget ? parseFloat(formData.budget) : null,
+        assigned_to_id: formData.assigned_to_id ? parseInt(formData.assigned_to_id) : null,
       };
 
       if (isEditing) {
@@ -205,6 +219,28 @@ export default function ProjectForm() {
                   {priorities.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Asignado a"
+                  name="assigned_to_id"
+                  value={formData.assigned_to_id}
+                  onChange={handleChange}
+                  disabled={saving}
+                  helperText="Usuario responsable del proyecto"
+                >
+                  <MenuItem value="">
+                    <em>Sin asignar</em>
+                  </MenuItem>
+                  {users.map((user) => (
+                    <MenuItem key={user.id} value={user.id}>
+                      {user.name} ({user.email})
                     </MenuItem>
                   ))}
                 </TextField>
