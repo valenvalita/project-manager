@@ -2,8 +2,11 @@ from typing import Optional
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .database import get_db
-from .models import Project, StatusEnum, PriorityEnum
-from .schemas import ProjectCreate, ProjectRead, ProjectUpdate
+from .models import Project, User, StatusEnum, PriorityEnum, RoleEnum
+from .schemas import (
+    ProjectCreate, ProjectRead, ProjectUpdate,
+    UserCreate, UserRead, UserUpdate
+)
 
 # Las tablas ahora se crean mediante migraciones de Alembic
 # Base.metadata.create_all(bind=engine) <- Ya no es necesario
@@ -90,3 +93,73 @@ def filter_projects(status: Optional[StatusEnum] = None, priority: Optional[Prio
     if priority:
         query = query.filter(Project.priority == priority)
     return query.all()
+
+# ========== ENDPOINTS DE USUARIOS ==========
+
+@app.post("/users/", response_model=UserRead, status_code=201)
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    # Verificar si el email ya existe
+    existing_user = db.query(User).filter(User.email == user.email).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="El email ya está registrado")
+    
+    db_user = User(**user.dict())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.get("/users/", response_model=list[UserRead])
+def list_users(skip: int = 0, limit: int = 100, active_only: bool = False, db: Session = Depends(get_db)):
+    query = db.query(User)
+    if active_only:
+        query = query.filter(User.is_active == True)
+    users = query.offset(skip).limit(limit).all()
+    return users
+
+@app.get("/users/{user_id}", response_model=UserRead)
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return user
+
+@app.patch("/users/{user_id}", response_model=UserRead)
+def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    # Verificar si el nuevo email ya existe (si se está cambiando)
+    update_data = user.dict(exclude_unset=True)
+    if 'email' in update_data and update_data['email'] != db_user.email:
+        existing_user = db.query(User).filter(User.email == update_data['email']).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="El email ya está registrado")
+    
+    for key, value in update_data.items():
+        setattr(db_user, key, value)
+    
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.delete("/users/{user_id}", status_code=204)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    # Verificar si el usuario tiene proyectos asociados
+    projects_created = db.query(Project).filter(Project.created_by_id == user_id).count()
+    projects_assigned = db.query(Project).filter(Project.assigned_to_id == user_id).count()
+    
+    if projects_created > 0 or projects_assigned > 0:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"No se puede eliminar el usuario porque tiene {projects_created + projects_assigned} proyectos asociados"
+        )
+    
+    db.delete(db_user)
+    db.commit()
+    return

@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel, model_validator, field_validator
+from pydantic import BaseModel, model_validator, field_validator, EmailStr
 from typing import Optional
 from datetime import datetime
 
@@ -14,6 +14,44 @@ class PriorityEnum(str, Enum):
     medium = "medium"
     high = "high"
 
+class RoleEnum(str, Enum):
+    admin = "admin"
+    manager = "manager"
+    user = "user"
+
+# Schemas de Usuario
+class UserBase(BaseModel):
+    name: str
+    email: EmailStr
+    role: Optional[RoleEnum] = RoleEnum.user
+    is_active: Optional[bool] = True
+
+class UserCreate(UserBase):
+    pass
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    role: Optional[RoleEnum] = None
+    is_active: Optional[bool] = None
+
+class UserRead(UserBase):
+    id: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    
+    class Config:
+        from_attributes = True
+
+# Schema simplificado para mostrar en proyectos
+class UserSimple(BaseModel):
+    id: int
+    name: str
+    email: str
+    
+    class Config:
+        from_attributes = True
+
 class ProjectCreate(BaseModel):
     title: str
     description: Optional[str] = None
@@ -23,6 +61,8 @@ class ProjectCreate(BaseModel):
     end_date: Optional[datetime] = None
     due_date: Optional[datetime] = None
     budget: Optional[float] = None
+    created_by_id: Optional[int] = None
+    assigned_to_id: Optional[int] = None
 
     @model_validator(mode="before")
     def check_dates(cls, values):
@@ -52,6 +92,8 @@ class ProjectUpdate(BaseModel):
     end_date: Optional[datetime] = None
     due_date: Optional[datetime] = None
     budget: Optional[float] = None
+    created_by_id: Optional[int] = None
+    assigned_to_id: Optional[int] = None
 
     @model_validator(mode="before")
     def check_dates(cls, values):
@@ -76,6 +118,8 @@ class ProjectRead(ProjectCreate):
     id: int
     created_at: datetime
     updated_at: Optional[datetime] = None
+    creator: Optional[UserSimple] = None
+    assigned_to: Optional[UserSimple] = None
 
     class Config:
         from_attributes = True
