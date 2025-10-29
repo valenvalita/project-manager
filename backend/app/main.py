@@ -41,6 +41,10 @@ def status():
         "message": "Backend ok"
     }
 
+@app.head("/")
+def status_head():
+    return {}
+
 # CRUD Endpoints
 @app.post("/projects/", response_model=ProjectRead)
 def create_project(project: ProjectCreate, db: Session = Depends(get_db)):
