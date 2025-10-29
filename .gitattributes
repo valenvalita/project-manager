@@ -1,0 +1,16 @@
+# Asegurar que los scripts de shell siempre usen finales de línea LF (Unix)
+*.sh text eol=lf
+
+# Asegurar que los archivos batch de Windows usen CRLF
+*.bat text eol=crlf
+
+# Archivos de texto que deben usar LF
+*.py text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+

@@ -13,8 +13,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el código de la aplicación
 COPY . .
 
-# Hacer el script de inicio ejecutable
-RUN chmod +x entrypoint.sh
+# Convertir finales de línea y hacer el script ejecutable
+RUN apt-get update && apt-get install -y dos2unix && \
+    dos2unix entrypoint.sh && \
+    chmod +x entrypoint.sh && \
+    apt-get remove -y dos2unix && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # Exponer el puerto 8000
 EXPOSE 8000
